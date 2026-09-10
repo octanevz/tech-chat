@@ -1,0 +1,29 @@
+{
+  "model": "claude-sonnet-5",
+  "effortLevel": "medium",
+  "autoMemoryEnabled": false,
+  "outputStyle": "Concise",
+  "permissions": {
+    "allow": [
+      "WebSearch",
+      "WebFetch"
+    ],
+    "ask": [
+      "Edit",
+      "NotebookEdit"
+    ],
+    "deny": [
+      "Bash(git commit *)",
+      "Bash(git push *)"
+    ]
+  },
+  "sandbox": {
+    "enabled": true,
+    "autoAllowBashIfSandboxed": false,
+    "allowUnsandboxedCommands": false,
+    "failIfUnavailable": true,
+    "filesystem": {
+      "denyWrite": ["."]
+    }
+  }
+}

@@ -1,0 +1,22 @@
+# Project-scoped Codex config for this chat-only repo.
+# Only honored when the project is trusted in ~/.codex/config.toml.
+
+# Read-only sandbox: commands cannot write anywhere or reach the network.
+sandbox_mode = "read-only"
+
+# Codex still asks before escalating a blocked command outside the sandbox.
+approval_policy = "on-request"
+
+# Model-side web search, independent of the command sandbox.
+web_search = "live"
+
+# Model for this repo.
+model = "gpt-5.6-luna"
+model_reasoning_effort = "medium"
+
+# Shorter answers by default (Responses API verbosity; ignored by models that lack it).
+model_verbosity = "low"
+
+# Never turn chats in this repo into Codex memories, even if features.memories is enabled globally.
+[memories]
+generate_memories = false

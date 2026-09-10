@@ -1,0 +1,26 @@
+{
+  "$schema": "https://opencode.ai/config.json",
+  "model": "opencode/muse-spark-1.3-contributor-free",
+  "provider": {
+    "opencode": {
+      "models": {
+        "muse-spark-1.3-contributor-free": {
+          "options": {
+            "reasoningEffort": "medium",
+            "textVerbosity": "low"
+          }
+        }
+      }
+    }
+  },
+  "permission": {
+    "edit": "ask",
+    "bash": {
+      "*": "ask",
+      "git commit *": "deny",
+      "git push *": "deny"
+    },
+    "webfetch": "allow",
+    "websearch": "allow"
+  }
+}

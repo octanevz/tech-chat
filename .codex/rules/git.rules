@@ -1,0 +1,14 @@
+# Git mutations in this repo are reserved for the owner outside agent sessions (see AGENTS.md).
+# Project-local rules load only when the project is trusted in ~/.codex/config.toml.
+
+prefix_rule(
+    pattern = ["git", "push"],
+    decision = "forbidden",
+    justification = "Pushing is reserved for the repo owner; report what should be pushed instead.",
+)
+
+prefix_rule(
+    pattern = ["git", "commit"],
+    decision = "forbidden",
+    justification = "Committing is reserved for the repo owner; propose a commit message instead.",
+)
