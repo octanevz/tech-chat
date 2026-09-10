@@ -1,16 +1,16 @@
 # tech-chat
 
-This is a chat notebook, not a software project. I keep it around so I can talk through
-technical topics with AI coding agents (Claude Code, Codex CLI, OpenCode) from one directory,
-where every agent starts with the same instructions and the same guard rails.
+A chat notebook for talking through technical topics with AI coding agents (Claude Code,
+Codex CLI, OpenCode) from one directory. Not a software project: no code, no build, nothing
+to run.
 
-It's not meant to be used as-is. If you like the idea, fork it and adjust the models, effort,
-harnesses and rules to your own taste and needs. See [Fork and customize](#fork-and-customize).
+Not meant to be used as-is. Fork it and adjust models, effort, harnesses and rules to your
+taste. See [Fork and customize](#fork-and-customize).
 
-## Why it exists
+## The problem
 
-Coding agents are built for creating and editing code. Used as a plain chat partner, they get a
-bit unpredictable. In my experience they tend to:
+Coding agents are built to create and edit code. Used as a plain chat partner, they get
+unpredictable. In my experience they tend to:
 
 - answer at wildly different lengths and shapes from one session to the next
 - name a library without a link one day and give a full comparison the next
@@ -18,8 +18,20 @@ bit unpredictable. In my experience they tend to:
   when all I wanted was an answer
 - quietly store what we talked about as agent memory
 
-I got tired of nudging them back every time. One shared `AGENTS.md` (imported by `CLAUDE.md`)
-plus per-agent settings spell out what I expect and block the things I never want:
+I got tired of nudging them back every time.
+
+Plan mode doesn't fix this either, and neither does a read-only sandbox. Both restrict what
+the agent may do, and both can be made the default, but neither says anything about answer
+length, links or memory. Plan mode is also designed for the step before coding: explore, then
+produce a plan for me to approve. I don't want a plan. I want an answer, and a notebook that
+behaves the same way for every agent I start in it.
+
+## The solution
+
+Every agent launched from a checkout of this repo gets the same instructions and the same
+guard rails. One shared `AGENTS.md` (imported by `CLAUDE.md`) spells out how I want answers shaped and when an
+agent may act. Per-agent settings back the rules that matter most (file writes, git, memory)
+with mechanisms that don't depend on the agent reading the prose.
 
 | Concern | Instructions | Supporting settings |
 | --- | --- | --- |
@@ -30,18 +42,21 @@ plus per-agent settings spell out what I expect and block the things I never wan
 | Concise, cited answers with URLs for recommended tools | `AGENTS.md` | verbosity settings support brevity; citations and links come from instructions |
 | Consistent model and effort defaults | settings | configured models at medium effort |
 
-Not all of these are equally hard. Sandbox restrictions and deny rules actually block
-operations, and approval prompts stop the agent until I say yes. Answer style and where a note
-ends up still rely on the agent reading and following the instructions, and all of it relies
-on the agent loading the settings in the first place.
+Two kinds of enforcement are at work here:
+
+- **Hard:** sandbox restrictions block operations; deny rules reject matching commands;
+  approval prompts stop the agent until I say yes.
+- **Soft:** answer style and where a note ends up rely on the agent reading and following the
+  instructions.
+
+All of it relies on the agent loading the settings in the first place; see
+[Before you start](#before-you-start).
 
 ## What changes in practice
 
-The examples below are illustrative, not verbatim transcripts. Instructions aren't guarantees
-either: the exact shape of an answer still varies, and an agent can still ignore a rule now and
-then. What they do is make it far more likely that an answer stays short, links the libraries
-it recommends, and never offers to write a file. The parts that actually block things (the
-sandbox, the git deny rules, memory switched off) come from the settings, not from the prose.
+The examples below are illustrative, not verbatim transcripts, and instructions aren't
+guarantees: the exact shape of an answer still varies, and an agent can still ignore a rule now
+and then.
 
 **"Which Python library for parsing TOML?"**
 
@@ -64,7 +79,7 @@ nothing, because I asked a question, not for a change.
 **"Do Angular components still need `standalone: true`?"**
 
 Without instructions, the answer might come straight from training data and be years stale.
-With them, the agent should check angular.dev, tell me standalone has been the default since
+With them, the agent should check [angular.dev](https://angular.dev), tell me standalone has been the default since
 Angular 19, and cite the page it read.
 
 **"Save a note on that."**
